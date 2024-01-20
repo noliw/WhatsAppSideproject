@@ -18,6 +18,8 @@ import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconToggleButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -208,12 +210,25 @@ fun BottomForm(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
+                modifier = Modifier.fillMaxWidth(),
                 text = "Password",
                 color = textColor
             )
             TextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = phoneNum,
-                onValueChange = onPhoneNumChange
+                onValueChange = onPhoneNumChange,
+                textStyle = LocalTextStyle.current.copy(
+                    color = textColor,
+                    fontSize = 18.sp,
+                    letterSpacing = 2.sp,
+                    fontWeight = FontWeight.SemiBold
+                ),
+                trailingIcon = {
+                    IconToggleButton(checked = Icons.Outlined., onCheckedChange = ) {
+                        
+                    }
+                }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
