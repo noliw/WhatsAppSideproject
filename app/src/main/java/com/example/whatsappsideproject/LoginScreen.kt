@@ -144,7 +144,8 @@ fun BottomForm(
                     disabledContainerColor = Color.White,
                     focusedIndicatorColor = whatsApp,
                     unfocusedIndicatorColor = whatsApp
-                )
+                ),
+                maxLines = 1
             )
 
 
@@ -205,6 +206,7 @@ fun BottomForm(
                         textAlign = TextAlign.End
                     )
                 },
+                maxLines = 1
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -224,11 +226,11 @@ fun BottomForm(
                     letterSpacing = 2.sp,
                     fontWeight = FontWeight.SemiBold
                 ),
-                trailingIcon = {
-                    IconToggleButton(checked = Icons.Outlined., onCheckedChange = ) {
-                        
-                    }
-                }
+//                trailingIcon = {
+////                    IconToggleButton(checked = Icons.Outlined., onCheckedChange = ) {
+////
+////                    }
+//                }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
