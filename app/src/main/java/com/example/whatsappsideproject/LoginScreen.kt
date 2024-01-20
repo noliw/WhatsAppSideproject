@@ -86,8 +86,6 @@ fun BottomForm(
                 color = if (phoneNum.length != 10 && phoneNum.isNotEmpty()) Color.Red else textColor
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
-
             TextField(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -153,11 +151,10 @@ fun BottomForm(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Email Address",
-                color = textColor,
+                color = if (email.isNotEmpty() && (!email.contains("@") || !email.contains("."))) Color.Red else textColor
 
                 )
 
-            Spacer(modifier = Modifier.height(8.dp))
 
             TextField(
                 value = email,
@@ -173,7 +170,7 @@ fun BottomForm(
                     Icon(
                         imageVector = Icons.Outlined.Email,
                         contentDescription = "",
-                        tint = whatsApp
+                        tint = if (email.isNotEmpty() && (!email.contains("@") || !email.contains("."))) Color.Red else whatsApp
                     )
                 },
                 keyboardOptions = KeyboardOptions(
@@ -181,7 +178,7 @@ fun BottomForm(
                             imeAction = ImeAction.Next
 
                 ),
-                isError = email.isNotEmpty() && !email.contains("@"),
+                isError = email.isNotEmpty() && (!email.contains("@") || !email.contains(".")),
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
@@ -191,10 +188,10 @@ fun BottomForm(
                     unfocusedIndicatorColor = whatsApp
                 ),
                 supportingText = {
-                    if (email.isNotEmpty() && !email.contains("@"))
+                    if (email.isNotEmpty() && (!email.contains("@") || !email.contains(".")))
                         Text(
                             modifier = Modifier.fillMaxWidth(),
-                            text = "Phone number must be 10 digits long",
+                            text = "Enter A Valid Email Address",
                             color = Color.Red,
                             textAlign = TextAlign.End
                         )
