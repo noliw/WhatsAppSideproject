@@ -1,5 +1,6 @@
 package com.example.whatsappsideproject
 
+import android.graphics.drawable.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,13 +17,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Phone
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
+
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -37,6 +43,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,6 +52,8 @@ import androidx.compose.ui.unit.sp
 import com.example.whatsappsideproject.ui.theme.textColor
 import com.example.whatsappsideproject.ui.theme.whatsApp
 import kotlin.math.min
+
+
 
 @Composable
 fun LoginScreen() {
@@ -57,6 +66,8 @@ fun BottomForm(
 ) {
     val (phoneNum, onPhoneNumChange) = remember { mutableStateOf("") }
     val (email, onEmailChange) = remember { mutableStateOf("") }
+    val (password, onPasswordChange) = remember { mutableStateOf("") }
+    var isVisible by remember { mutableStateOf(false) }
 
 
     Box(
@@ -156,7 +167,7 @@ fun BottomForm(
                 text = "Email Address",
                 color = if (email.isNotEmpty() && (!email.contains("@") || !email.contains("."))) Color.Red else textColor
 
-                )
+            )
 
 
             TextField(
@@ -178,7 +189,7 @@ fun BottomForm(
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
-                            imeAction = ImeAction.Next
+                    imeAction = ImeAction.Next
 
                 ),
                 isError = email.isNotEmpty() && (!email.contains("@") || !email.contains(".")),
@@ -199,12 +210,12 @@ fun BottomForm(
                             textAlign = TextAlign.End
                         )
                     else
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = "* Required",
-                        color = Color.Gray,
-                        textAlign = TextAlign.End
-                    )
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = "* Required",
+                            color = Color.Gray,
+                            textAlign = TextAlign.End
+                        )
                 },
                 maxLines = 1
             )
@@ -218,19 +229,22 @@ fun BottomForm(
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = phoneNum,
-                onValueChange = onPhoneNumChange,
+                value = password,
+                onValueChange = onPasswordChange,
                 textStyle = LocalTextStyle.current.copy(
                     color = textColor,
                     fontSize = 18.sp,
                     letterSpacing = 2.sp,
                     fontWeight = FontWeight.SemiBold
                 ),
-//                trailingIcon = {
-////                    IconToggleButton(checked = Icons.Outlined., onCheckedChange = ) {
-////
-////                    }
-//                }
+                visualTransformation = if (!isVisible) PasswordVisualTransformation() else VisualTransformation.None,
+                trailingIcon = {
+                    val image = if (isVisible) Icons.Outlined.Visibility else Icons.Outlined.VisibilityOff
+                    IconButton(onClick = { isVisible = !isVisible }){
+
+                        Icon(imageVector = image, contentDescription = "")
+                    }
+                }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
