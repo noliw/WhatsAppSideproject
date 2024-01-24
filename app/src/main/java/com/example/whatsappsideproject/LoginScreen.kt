@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.whatsappsideproject.ui.theme.textColor
 import com.example.whatsappsideproject.ui.theme.whatsApp
+import com.example.whatsappsideproject.ui.theme.whatsAppGray
 import kotlin.math.min
 
 
@@ -287,7 +288,9 @@ fun BottomForm(
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                modifier = Modifier.fillMaxWidth().height(50.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
                 shape = MaterialTheme.shapes.small,
                 colors = androidx.compose.material3.ButtonDefaults.buttonColors(whatsApp),
                 enabled = password.isNotEmpty() && password.length >= 8,
@@ -300,7 +303,30 @@ fun BottomForm(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            Text(text = "or signup with")
+            Row {
+                Box( modifier = Modifier
+                    .weight(1f)
+                    .height(1.dp)
+                    .background(whatsAppGray),
+
+                )
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(1.dp)
+                ) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "or signup with")
+                }
+                Box(modifier = Modifier
+                    .weight(1f)
+                    .height(1.dp)
+                    .background(whatsAppGray)
+                )
+            }
+
+
 
             Spacer(modifier = Modifier.height(64.dp))
 
