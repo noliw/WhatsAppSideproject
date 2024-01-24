@@ -54,7 +54,6 @@ import com.example.whatsappsideproject.ui.theme.whatsApp
 import kotlin.math.min
 
 
-
 @Composable
 fun LoginScreen() {
 
@@ -225,7 +224,7 @@ fun BottomForm(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Password",
-                color = textColor
+                color = if (password.isNotEmpty() && password.length < 8) Color.Red else textColor
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -237,14 +236,50 @@ fun BottomForm(
                     letterSpacing = 2.sp,
                     fontWeight = FontWeight.SemiBold
                 ),
+
                 visualTransformation = if (!isVisible) PasswordVisualTransformation() else VisualTransformation.None,
                 trailingIcon = {
-                    val image = if (isVisible) Icons.Outlined.Visibility else Icons.Outlined.VisibilityOff
-                    IconButton(onClick = { isVisible = !isVisible }){
+                    val image =
+                        if (isVisible) Icons.Outlined.Visibility else Icons.Outlined.VisibilityOff
+                    IconButton(onClick = { isVisible = !isVisible }) {
 
-                        Icon(imageVector = image, contentDescription = "")
+                        Icon(
+                            imageVector = image,
+                            contentDescription = "",
+                            tint = if (password.isNotEmpty() && password.length < 8) Color.Red else whatsApp
+                        )
                     }
-                }
+                },
+                supportingText = {
+                    if (password.isNotEmpty() && password.length < 8)
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.End,
+                            color = Color.Red,
+                            text = "Password must be minimum 8 characters"
+                        )
+                    else
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.End,
+                            text = "* Required"
+                        )
+                },
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                    errorContainerColor = Color.White,
+                    disabledContainerColor = Color.White,
+                    focusedIndicatorColor = whatsApp,
+                    unfocusedIndicatorColor = whatsApp
+                ),
+                isError = password.isNotEmpty() && password.length < 8,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Next
+                ),
+                maxLines = 1
+
             )
 
             Spacer(modifier = Modifier.height(16.dp))
