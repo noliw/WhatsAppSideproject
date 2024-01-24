@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.ButtonColors
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Email
@@ -276,15 +278,21 @@ fun BottomForm(
                 isError = password.isNotEmpty() && password.length < 8,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Next
+                    imeAction = ImeAction.Done
                 ),
                 maxLines = 1
 
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(
+                modifier = Modifier.fillMaxWidth().height(50.dp),
+                shape = MaterialTheme.shapes.small,
+                colors = androidx.compose.material3.ButtonDefaults.buttonColors(whatsApp),
+                enabled = password.isNotEmpty() && password.length >= 8,
+                onClick = { /*TODO*/ }
+            ) {
                 Text(
                     text = "Login",
                 )
