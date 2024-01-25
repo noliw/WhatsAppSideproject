@@ -1,7 +1,5 @@
-package com.example.whatsappsideproject
+package com.example.whatsappsideproject.screens
 
-import android.content.res.Resources
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,32 +14,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ButtonColors
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,7 +41,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key.Companion.I
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -64,14 +53,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.whatsappsideproject.R
+import com.example.whatsappsideproject.navigation.Screen
 import com.example.whatsappsideproject.ui.theme.textColor
 import com.example.whatsappsideproject.ui.theme.whatsApp
 import com.example.whatsappsideproject.ui.theme.whatsAppGray
-import kotlin.math.min
 
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -83,8 +79,8 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                 .background(Color.White)
 
         ) {
-                TopImg(Modifier.fillMaxHeight(0.25f))
-                BottomForm(Modifier.fillMaxHeight(1f))
+            TopImg(Modifier.fillMaxHeight(0.25f))
+            BottomForm(Modifier.fillMaxHeight(1f), navController)
         }
     }
 }
@@ -114,7 +110,8 @@ fun TopImgPreview() {
 
 @Composable
 fun BottomForm(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController
 ) {
     val (phoneNum, onPhoneNumChange) = remember { mutableStateOf("") }
     val (email, onEmailChange) = remember { mutableStateOf("") }
@@ -352,7 +349,9 @@ fun BottomForm(
                 shape = MaterialTheme.shapes.small,
                 colors = androidx.compose.material3.ButtonDefaults.buttonColors(whatsApp),
                 enabled = password.isNotEmpty() && password.length >= 8,
-                onClick = { /*TODO*/ }
+                onClick = {
+                    navController.navigate(route = Screen.HomeChat.route)
+                }
             ) {
                 Text(
                     text = "Sign Up",
@@ -501,5 +500,5 @@ fun BottomForm(
 @Preview
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(modifier = Modifier)
+    LoginScreen(modifier = Modifier, navController = rememberNavController())
 }
