@@ -1,18 +1,27 @@
 package com.example.whatsappsideproject
 
+import android.content.res.Resources
 import android.graphics.drawable.Icon
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.icons.Icons
@@ -23,6 +32,7 @@ import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconToggleButton
@@ -41,6 +51,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key.Companion.I
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -58,9 +71,46 @@ import kotlin.math.min
 
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(modifier: Modifier = Modifier) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.Red)
+    ) {
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .background(Color.White)
 
+        ) {
+                TopImg(Modifier.fillMaxHeight(0.25f))
+                BottomForm(Modifier.fillMaxHeight(1f))
+        }
+    }
 }
+
+@Composable
+fun TopImg(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth(),
+
+        ) {
+        Image(
+            modifier = Modifier
+                .fillMaxSize(),
+            painter = painterResource(id = R.drawable.whatsapp),
+            contentDescription = "",
+            contentScale = ContentScale.Crop
+        )
+    }
+}
+
+/*@Preview
+@Composable
+fun TopImgPreview() {
+    TopImg()
+}*/
 
 @Composable
 fun BottomForm(
@@ -73,15 +123,18 @@ fun BottomForm(
 
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(Color.White)
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
+            .fillMaxHeight()
 
     ) {
 
         Column(
-            modifier = Modifier
-                .background(Color.White),
+            modifier = modifier
+                .background(Color.White)
+                .fillMaxHeight()
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -98,17 +151,19 @@ fun BottomForm(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Phone Number",
+                fontSize = 14.sp,
                 color = if (phoneNum.length != 10 && phoneNum.isNotEmpty()) Color.Red else textColor
             )
 
             TextField(
                 modifier = Modifier
                     .fillMaxWidth(),
+//                    .fillMaxHeight(0.15f),
                 value = phoneNum,
                 onValueChange = onPhoneNumChange,
                 textStyle = TextStyle.Default.copy(
                     color = textColor,
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     letterSpacing = 2.sp,
                     fontWeight = FontWeight.SemiBold
                 ),
@@ -116,7 +171,7 @@ fun BottomForm(
                     Text(
                         text = "+1 ",
                         color = textColor,
-                        fontSize = 18.sp,
+                        fontSize = 16.sp,
                         letterSpacing = 2.sp,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -162,11 +217,12 @@ fun BottomForm(
             )
 
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Email Address",
+                fontSize = 14.sp,
                 color = if (email.isNotEmpty() && (!email.contains("@") || !email.contains("."))) Color.Red else textColor
 
             )
@@ -178,7 +234,7 @@ fun BottomForm(
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle.Default.copy(
                     color = textColor,
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     letterSpacing = 2.sp,
                     fontWeight = FontWeight.SemiBold
                 ),
@@ -222,11 +278,12 @@ fun BottomForm(
                 maxLines = 1
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Password",
+                fontSize = 14.sp,
                 color = if (password.isNotEmpty() && password.length < 8) Color.Red else textColor
             )
             TextField(
@@ -235,7 +292,7 @@ fun BottomForm(
                 onValueChange = onPasswordChange,
                 textStyle = LocalTextStyle.current.copy(
                     color = textColor,
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     letterSpacing = 2.sp,
                     fontWeight = FontWeight.SemiBold
                 ),
@@ -265,7 +322,8 @@ fun BottomForm(
                         Text(
                             modifier = Modifier.fillMaxWidth(),
                             textAlign = TextAlign.End,
-                            text = "* Required"
+                            text = "* Required",
+                            color = Color.Gray
                         )
                 },
                 colors = TextFieldDefaults.colors(
@@ -285,7 +343,7 @@ fun BottomForm(
 
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Button(
                 modifier = Modifier
@@ -297,18 +355,24 @@ fun BottomForm(
                 onClick = { /*TODO*/ }
             ) {
                 Text(
-                    text = "Login",
+                    text = "Sign Up",
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 18.sp
                 )
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
-            Row {
-                Box( modifier = Modifier
-                    .weight(1f)
-                    .height(1.dp)
-                    .background(whatsAppGray),
-
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(0.5.dp)
+                        .background(whatsAppGray),
                 )
                 Box(
                     modifier = Modifier
@@ -317,30 +381,106 @@ fun BottomForm(
                 ) {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "or signup with")
+                        text = "or signup with",
+                        color = whatsAppGray,
+                        textAlign = TextAlign.Center,
+                        fontSize = 12.sp
+                    )
                 }
-                Box(modifier = Modifier
-                    .weight(1f)
-                    .height(1.dp)
-                    .background(whatsAppGray)
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(0.5.dp)
+                        .background(whatsAppGray)
                 )
             }
 
 
 
-            Spacer(modifier = Modifier.height(64.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
-            Row {
-                Box() {}
-                Box() {}
-                Box() {}
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(0.7f)
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(60.dp)
+                        .border(0.1.dp, whatsAppGray, CircleShape)
+                        .background(Color.White, CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painterResource(id = R.drawable.fb_ic),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(50.dp)
+                            .padding(10.dp),
+                        tint = Color.Unspecified
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .size(60.dp)
+                        .border(0.1.dp, whatsAppGray, CircleShape)
+                        .background(Color.White, CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painterResource(id = R.drawable.ig_ic),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(50.dp)
+                            .padding(10.dp),
+                        tint = Color.Unspecified
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .size(60.dp)
+                        .border(0.1.dp, whatsAppGray, CircleShape)
+                        .background(Color.White, CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painterResource(id = R.drawable.g_ic),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(50.dp)
+                            .padding(10.dp),
+                        tint = Color.Unspecified
+                    )
+                }
+
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
-            Row {
-                Text(text = "Already have an account")
-                Text(text = "Login Here")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(0.7f)
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier
+                        .weight(1f),
+                    text = "Already have an account?",
+                    textAlign = TextAlign.Center,
+                    color = textColor,
+                    fontSize = 12.sp
+                )
+                Text(
+                    modifier = Modifier,
+                    text = "Login Here",
+                    fontWeight = FontWeight.Bold,
+                    color = textColor,
+                    fontSize = 12.sp
+                )
 
             }
 
@@ -351,14 +491,14 @@ fun BottomForm(
 }
 
 
-@Preview()
-@Composable
-fun BottomFormPreview() {
-    BottomForm()
-}
+//@Preview()
+//@Composable
+//fun BottomFormPreview() {
+//    BottomForm()
+//}
 
 @Preview
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+    LoginScreen(modifier = Modifier)
 }

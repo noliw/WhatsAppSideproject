@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             WhatsAppSideprojectTheme {
-                LoginScreen()
+                LoginScreen(modifier = Modifier)
             }
         }
     }
