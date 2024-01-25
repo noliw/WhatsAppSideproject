@@ -357,7 +357,8 @@ fun BottomForm(
                 Text(
                     text = "Sign Up",
                     fontWeight = FontWeight.SemiBold,
-                    fontSize = 18.sp
+                    fontSize = 18.sp,
+                    color = Color.White
                 )
             }
 
@@ -384,7 +385,7 @@ fun BottomForm(
                         text = "or signup with",
                         color = whatsAppGray,
                         textAlign = TextAlign.Center,
-                        fontSize = 12.sp
+                        fontSize = 14.sp
                     )
                 }
                 Box(
@@ -461,7 +462,7 @@ fun BottomForm(
 
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(0.7f)
+                    .fillMaxWidth(0.8f)
                     .padding(8.dp),
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
@@ -472,14 +473,14 @@ fun BottomForm(
                     text = "Already have an account?",
                     textAlign = TextAlign.Center,
                     color = textColor,
-                    fontSize = 12.sp
+                    fontSize = 14.sp
                 )
                 Text(
                     modifier = Modifier,
                     text = "Login Here",
                     fontWeight = FontWeight.Bold,
                     color = textColor,
-                    fontSize = 12.sp
+                    fontSize = 14.sp
                 )
 
             }
