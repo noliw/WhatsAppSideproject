@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -173,11 +175,12 @@ fun ItemList(
                     Box(
                         modifier = Modifier
                             .background(whatsApp, CircleShape)
-                            .size(20.dp),
+                            .wrapContentSize()
+                            .padding(horizontal = 4.dp, vertical = 2.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "${person.messageCount++}",
+                            text = person.messageCount.toString(),
                             color = Color.White
                         )
                     }
