@@ -7,15 +7,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CameraAlt
@@ -30,6 +31,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,6 +46,7 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.whatsappsideproject.R
+import com.example.whatsappsideproject.ui.theme.textColor
 import com.example.whatsappsideproject.ui.theme.whatsApp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,53 +67,43 @@ fun ChatScreen() {
                     )
                 },
                 actions = {
-                    Row(
-                        modifier = Modifier.width(100.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceAround
-                    ) {
                         Icon(imageVector = Icons.Outlined.CameraAlt, contentDescription = "")
+                    Spacer(modifier = Modifier.width(16.dp))
                         Icon(imageVector = Icons.Outlined.Search, contentDescription = "")
-                        Icon(imageVector = Icons.Outlined.MoreVert, contentDescription = "")
-
-                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Icon(imageVector = Icons.Outlined.MoreVert, contentDescription = "")
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = whatsApp,
                     actionIconContentColor = Color.White
                 ),
                 scrollBehavior = scrollBehavior
-
-
             )
         }
     ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            LazyColumn(){
-                item {
-                    (1..100).forEach{
-                        val hours = it + 1
-                        val minutes = it + 15
-                        val timeString = String.format("%02d:%02d AM", hours, minutes)
-                        val message = it * 50
-                        ItemList(person = Person(
-                            name = "Lionel Messi",
-                            time = timeString,
-                            messageCount = message
-                        ))
-                    }
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ){
+                items(100) {index ->
+                       val person = remember { generatePerson(index) }
+                        ItemList(person = person)
                 }
             }
-        }
     }
 }
 
+fun generatePerson(index: Int): Person {
+    val hours = index * 2
+    val minutes = index * 10
+    val timeString = String.format("%02d:%02d", hours, minutes)
+    return Person(
+        name = "Lionel Messi ${1}",
+        time = timeString,
+        messageCount = index + 2 * 3
+    )
+}
 
 @Composable
 fun ItemList(
@@ -132,7 +125,7 @@ fun ItemList(
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .size(45.dp)
+                    .size(50.dp)
                     .clip(CircleShape),
             )
 
@@ -150,8 +143,9 @@ fun ItemList(
                 ) {
                     Text(
                         text = person.name,
-                        style = MaterialTheme.typography.titleSmall,
+                        style = MaterialTheme.typography.titleMedium,
                         fontSize = 16.sp,
+                        color = textColor
                     )
                     Text(
                         text = person.time,
@@ -160,14 +154,19 @@ fun ItemList(
                         fontWeight = FontWeight.SemiBold
                     )
                 }
+
+//                Spacer(modifier = Modifier.height(8.dp))
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
 
                     Text(
                         modifier = Modifier.weight(1f),
                         text = person.lastMessage,
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.bodyMedium,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         color = Color.Gray
@@ -176,12 +175,16 @@ fun ItemList(
                         modifier = Modifier
                             .background(whatsApp, CircleShape)
                             .wrapContentSize()
-                            .padding(horizontal = 4.dp, vertical = 2.dp),
+                            .padding(horizontal = 7.dp, vertical = 5.dp)
+                            .sizeIn(minWidth = 12.dp, minHeight = 8.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = person.messageCount.toString(),
-                            color = Color.White
+                            color = Color.White,
+                            fontSize = 12.sp,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
@@ -203,7 +206,7 @@ fun ItemListPrev() {
         ItemList(
             person = Person(
                 name = "John Doe",
-                time = "13:57 AM",
+                time = "13:57 AMp",
                 lastMessage = LoremIpsum(10).values.first()
             )
         )
