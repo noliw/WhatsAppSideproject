@@ -22,6 +22,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,12 +33,15 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -48,58 +54,36 @@ import androidx.compose.ui.unit.sp
 import com.example.whatsappsideproject.R
 import com.example.whatsappsideproject.ui.theme.textColor
 import com.example.whatsappsideproject.ui.theme.whatsApp
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen() {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    Scaffold(
+
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "WhatsApp",
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.White
-                    )
-                },
-                actions = {
-                        Icon(imageVector = Icons.Outlined.CameraAlt, contentDescription = "")
-                    Spacer(modifier = Modifier.width(16.dp))
-                        Icon(imageVector = Icons.Outlined.Search, contentDescription = "")
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Icon(imageVector = Icons.Outlined.MoreVert, contentDescription = "")
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = whatsApp,
-                    actionIconContentColor = Color.White
-                ),
-                scrollBehavior = scrollBehavior
-            )
-        }
-    ) { innerPadding ->
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ){
-                items(100) {index ->
-                       val person = remember { generatePerson(index) }
-                        ItemList(person = person)
-                }
+    ) {
+        items(
+            count = 50,
+            key = {
+                val person = generatePerson(it)
+                person.id
             }
+            ) { index ->
+            val person = remember { generatePerson(index) }
+            ItemList(person = person)
+        }
     }
 }
+
 
 fun generatePerson(index: Int): Person {
     val hours = index * 2
     val minutes = index * 10
     val timeString = String.format("%02d:%02d", hours, minutes)
     return Person(
-        name = "Lionel Messi ${1}",
+        name = "Lionel Messi ${index + 1}",
         time = timeString,
         messageCount = index + 2 * 3
     )
@@ -110,11 +94,11 @@ fun ItemList(
     modifier: Modifier = Modifier,
     person: Person
 ) {
-    Box(
+    Card (
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White)
-            .padding(16.dp)
+            .padding(16.dp),
+        colors = CardDefaults.cardColors(White)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -155,7 +139,6 @@ fun ItemList(
                     )
                 }
 
-//                Spacer(modifier = Modifier.height(8.dp))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -206,22 +189,25 @@ fun ItemListPrev() {
         ItemList(
             person = Person(
                 name = "John Doe",
-                time = "13:57 AMp",
+                time = "13:57 AM",
                 lastMessage = LoremIpsum(10).values.first()
             )
         )
     }
 }
+
 @Preview(showSystemUi = true)
 @Composable
 fun ChatScreenPrev() {
     ChatScreen()
 }
 
+@Immutable
 data class Person(
     val picture: Int = R.drawable.dummy_pic,
     val name: String,
     val lastMessage: String = LoremIpsum(10).values.first(),
     val time: String,
-    var messageCount : Int = 1
+    var messageCount: Int = 1,
+    var id: String = UUID.randomUUID().toString()
 )
