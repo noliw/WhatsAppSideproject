@@ -70,6 +70,7 @@ fun ChatScreen() {
                 val person = generatePerson(it)
                 person.id
             }
+            //jhjhj
             ) { index ->
             val person = remember { generatePerson(index) }
             ItemList(person = person)
